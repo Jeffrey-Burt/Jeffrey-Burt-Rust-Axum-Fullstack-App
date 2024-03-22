@@ -1,4 +1,4 @@
-# Jeffrey Burt's Full Stack RUST Axum web application
+# Jeffrey Burt's Full Stack Rust Axum web application
 Web application using the RUST Axum web framework. 
 
 Useful things to download alongside this project:
@@ -10,9 +10,9 @@ Useful things to download alongside this project:
 
 To start out:
 
-```git clone https://github.com/Jeffrey-Burt/RUST-AXUM-Web-Dev.git```
+```git clone https://github.com/Jeffrey-Burt/Jeffrey-Burt-Rust-Axum-Fullstack-App.git```
 
-```cd RUST-AXUM-Web-Dev\my_rust_api```
+```cd Jeffrey-Burt-Rust-Axum-Fullstack-App```
 
 ```cargo build```
 
