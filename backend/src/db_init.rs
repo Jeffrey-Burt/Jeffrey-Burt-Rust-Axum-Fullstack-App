@@ -20,6 +20,7 @@ pub async fn connect_to_db() -> Router {
     return Router::new()
     .route("/", get(|| async {"Hello, Rust!"}))
     .route("/create-user", post(create_user))
+    .route("/hello-world", get(hello))
     .route("/users", get(get_users))
     .route("/item/:id", get(show_item))
     .route("/add-item", post(add_item))

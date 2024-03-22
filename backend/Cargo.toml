@@ -1,5 +1,5 @@
 [package]
-name = "Jeffrey-Burt-Rust-Axum-Fullstack-App"
+name = "backend"
 version = "0.1.0"
 edition = "2021"
 
@@ -12,14 +12,3 @@ serde_json = "1.0.68"
 tokio = { version = "1.0", features = ["full"] }
 sqlx = { version = "0.7.2", features = ["runtime-tokio", "mysql"] }
 chrono = "0.4.35"
-askama = "0.12.1"
-
-[[bin]]
-name = "backend_main"
-path = "backend/src/main.rs"
-
-[workspace]
-members = [
-    "frontend",
-    "backend"
-]
