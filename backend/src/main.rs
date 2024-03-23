@@ -2,6 +2,8 @@ mod svc_init;
 mod db_init;
 pub mod logging;
 pub mod api;
+pub mod routes;
+pub mod templates;
 
 #[tokio::main]
 async fn main() {
