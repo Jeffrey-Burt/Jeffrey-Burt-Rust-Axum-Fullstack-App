@@ -30,3 +30,9 @@ If you want continuous modification and execution, you can use cargo-watch
 Once installed, run cargo-watch with the following command:
 
 ```cargo-watch -qcx run```
+
+---
+
+Notes:
+
+*DO NOT* put ; after HtmlTemplate();

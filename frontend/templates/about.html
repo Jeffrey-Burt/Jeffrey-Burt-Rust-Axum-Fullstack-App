@@ -1,1 +1,18 @@
-<p>hello world!</p>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            <script src="../htmx.min.js"></script>
+            About
+        </title>
+    </head>
+    <body>
+        <button hx-post="/clicked"
+            hx-trigger="click"
+            hx-target="#parent-div"
+            hx-swap="outerHTML"
+        >
+            {{ button_text }}
+        </button>
+    </body>
+</html>

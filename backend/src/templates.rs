@@ -21,12 +21,12 @@ pub struct AboutTemplate {
 
 pub async fn about_template() -> impl IntoResponse {
     let template = AboutTemplate { button_text: "Text in button!".to_string() };
-    HtmlTemplate(template);
+    HtmlTemplate(template)
 }
 
 pub async fn hello() -> impl IntoResponse {
     let template = HelloTemplate { name: "World".to_string() };
-    HtmlTemplate(template);
+    HtmlTemplate(template)
 }
 
 /// Allows us to convert Askama HTML templates into valid HTML for axum to serve in the response.
