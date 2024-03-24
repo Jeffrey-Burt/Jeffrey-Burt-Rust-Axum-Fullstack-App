@@ -3,6 +3,8 @@ use axum::{
     http::StatusCode,
     response::{Html, IntoResponse, Response},
 };
+use crate::api::list_users;
+use crate::api::User;
 
 /// A wrapper type that we'll use to encapsulate HTML parsed by askama into valid HTML for axum to serve.
 pub struct HtmlTemplate<T>(T);
@@ -16,11 +18,15 @@ pub struct HelloTemplate {
 #[derive(Template)]
 #[template(path = "C:\\Users\\User\\Desktop\\Jeffrey-Burt-Rust-Axum-Fullstack-App\\frontend\\templates\\about.html")]
 pub struct AboutTemplate {
-    button_text: String
+    button_text: String,
+    list: Vec<User>
 }
 
 pub async fn about_template() -> impl IntoResponse {
-    let template = AboutTemplate { button_text: "Text in button!".to_string() };
+    let template = AboutTemplate { 
+        button_text: "Text in button!".to_string(),
+        list: list_users()
+    };
     HtmlTemplate(template)
 }
 

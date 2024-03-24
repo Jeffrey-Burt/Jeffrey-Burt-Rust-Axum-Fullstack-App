@@ -36,3 +36,6 @@ Once installed, run cargo-watch with the following command:
 Notes:
 
 *DO NOT* put ; after HtmlTemplate();
+
+```the trait Template is not implemented for AboutTemplate, which is required by HtmlTemplate<AboutTemplate>: axum::response::IntoResponse```
+^ This error is caused by the path being incorrect on one of the #[template(path = "foo/bar")]

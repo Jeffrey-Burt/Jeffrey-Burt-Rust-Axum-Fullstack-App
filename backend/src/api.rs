@@ -13,12 +13,13 @@ use sqlx::{
     MySqlPool,
     Row,
 };
+use std::fmt;
 
 #[derive(Serialize)]
 pub struct User {
-    id: u64,
-    name: String,
-    email: String
+    pub id: u64,
+    pub name: String,
+    pub email: String,
 }
 
 #[derive(Serialize)]
@@ -36,6 +37,13 @@ pub struct Page {
     number: u32,
 }
 
+impl fmt::Display for User {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        // Customize so only `x` and `y` are denoted.
+        write!(f, "id: {}, name: {}, email: {}", self.id, self.name, self.email)
+    }
+}
+
 pub async fn show_item(Path(id): Path<u32>, Query(page): Query<Page>) -> String {
     format!("Item {} on page {}", id, page.number)
 }
@@ -51,8 +59,8 @@ pub async fn create_user() -> impl IntoResponse {
         .unwrap()
 }
 
-pub async fn list_users() -> Json<Vec<User>> {
-    let users = vec![
+pub fn list_users() -> Vec<User> {
+    return vec![
         User {
             id: 1,
             name: "Jeffrey".to_string(),
@@ -64,7 +72,6 @@ pub async fn list_users() -> Json<Vec<User>> {
             email: "zach@zach.com".to_string(),
         },
     ];
-    Json(users)
 }
 
 pub async fn delete_user(Path(user_id): Path<u64>) -> Result<Json<User2>, impl IntoResponse> {
