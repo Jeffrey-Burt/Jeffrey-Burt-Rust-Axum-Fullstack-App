@@ -7,6 +7,7 @@ Useful things to download alongside this project:
 * Postman https://www.postman.com/downloads/
 * VSCode https://code.visualstudio.com/download
 * MySQL Shell https://dev.mysql.com/downloads/workbench/
+* MySQL Server https://dev.mysql.com/downloads/file/?id=526084
 
 To start out:
 
