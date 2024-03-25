@@ -12,6 +12,7 @@ use serde_json::json;
 use sqlx::{
     MySqlPool,
     Row,
+    types::JsonValue
 };
 use std::fmt;
 
@@ -59,8 +60,34 @@ pub async fn create_user() -> impl IntoResponse {
         .unwrap()
 }
 
-pub fn list_users() -> Vec<User> {
-    return vec![
+pub async fn list_users(Extension(pool): Extension<MySqlPool>) -> Option<axum::Json<Vec<JsonValue>>> {
+    let rows = match sqlx::query("SELECT id, name, email FROM users")
+        .fetch_all(&pool)
+        .await
+    {
+        Ok(rows) => rows,
+        Err(_) => {
+            return None;
+            //return Json([{"email": "justin.ff@email.com", "id": 2, "name": "Justin Flinch-Fletcher"}]); 
+        }
+    };
+
+    let users: Vec<serde_json::Value> = rows
+        .into_iter()
+        .map(|row| {
+            json!({
+                "id": row.try_get::<i32, _>("id").unwrap_or_default(),
+                "name": row.try_get::<String, _>("name").unwrap_or_default(),
+                "email": row.try_get::<String, _>("email").unwrap_or_default(),
+            })
+        })
+        .collect();
+
+    //println!("{}", Json(users));
+
+    return Some(Json(users));
+    
+    /*return vec![
         User {
             id: 1,
             name: "Jeffrey".to_string(),
@@ -71,7 +98,7 @@ pub fn list_users() -> Vec<User> {
             name: "Zach".to_string(),
             email: "zach@zach.com".to_string(),
         },
-    ];
+    ];*/
 }
 
 pub async fn delete_user(Path(user_id): Path<u64>) -> Result<Json<User2>, impl IntoResponse> {
