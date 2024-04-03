@@ -33,11 +33,8 @@ pub async fn about_template(Extension(pool): Extension<MySqlPool>, Query(user): 
     let users = list_users(Extension(pool)).await;
     println!("{:?}", users);
     println!("{}", user.name);
-    let user = User {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-    };
+    let v: Value = serde_json::from(users);
+    println!("{} {} {}", v["id"], v["name"], v["email"]);
     let template = AboutTemplate { 
         button_text: "Text in button!".to_string(),
         list: user
