@@ -1,8 +1,7 @@
-use askama_axum::Template;
 use axum::{
     http::StatusCode,
     response::{Html, IntoResponse, Response},
-    extract::Extension,
+    extract::{Extension, Query},
     Json
 };
 use crate::api::list_users;
@@ -12,6 +11,7 @@ use sqlx::{
     MySqlPool,
     types::{JsonValue}
 };
+use askama::Template;
 
 /// A wrapper type that we'll use to encapsulate HTML parsed by askama into valid HTML for axum to serve.
 pub struct HtmlTemplate<T>(T);
@@ -22,19 +22,25 @@ pub struct HelloTemplate {
      name: String
 }
 
-#[derive(Template, Deserialize)]
+#[derive(Template)]
 #[template(path = "C:\\Users\\User\\Desktop\\Jeffrey-Burt-Rust-Axum-Fullstack-App\\frontend\\templates\\about.html")]
 pub struct AboutTemplate {
     button_text: String,
-    list: Option<Json<Vec<JsonValue>>>
+    list: User
 }
 
-pub async fn about_template(Extension(pool): Extension<MySqlPool>) -> impl IntoResponse {
+pub async fn about_template(Extension(pool): Extension<MySqlPool>, Query(user): Query<User>) -> impl IntoResponse {
     let users = list_users(Extension(pool)).await;
     println!("{:?}", users);
+    println!("{}", user.name);
+    let user = User {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+    };
     let template = AboutTemplate { 
         button_text: "Text in button!".to_string(),
-        list: users
+        list: user
     };
     HtmlTemplate(template)
 }

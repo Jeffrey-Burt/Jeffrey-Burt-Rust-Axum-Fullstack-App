@@ -15,12 +15,10 @@
             {{ button_text }}
         </button>
         <p>
-            {% for iter in list %}
-            <ul>{{ iter.name }}</ul>
-                <li>Id: {{ iter.id }}</li>
-                <li>Name: {{ iter.name }}</li>
-                <li>Email: {{ iter.email }}</li>
-            {% endfor %}
+            {{ list.id }}
+            {{ list.name }}
+            {{ list.email }}
+            Text
         </p>
     </body>
 </html>
