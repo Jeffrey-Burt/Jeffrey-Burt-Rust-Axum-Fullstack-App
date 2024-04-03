@@ -26,18 +26,16 @@ pub struct HelloTemplate {
 #[template(path = "C:\\Users\\User\\Desktop\\Jeffrey-Burt-Rust-Axum-Fullstack-App\\frontend\\templates\\about.html")]
 pub struct AboutTemplate {
     button_text: String,
-    list: User
 }
 
-pub async fn about_template(Extension(pool): Extension<MySqlPool>, Query(user): Query<User>) -> impl IntoResponse {
+pub async fn about_template(Extension(pool): Extension<MySqlPool>) -> impl IntoResponse {
     let users = list_users(Extension(pool)).await;
     println!("{:?}", users);
-    println!("{}", user.name);
-    let v: Value = serde_json::from(users);
-    println!("{} {} {}", v["id"], v["name"], v["email"]);
+    println!("{:?}", *users.unwrap());
+    //let v: Value = serde_json::from(users);
+    //println!("{} {} {}", v["id"], v["name"], v["email"]);
     let template = AboutTemplate { 
-        button_text: "Text in button!".to_string(),
-        list: user
+        button_text: "Text in button!".to_string()
     };
     HtmlTemplate(template)
 }
