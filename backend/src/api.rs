@@ -60,7 +60,7 @@ pub async fn create_user() -> impl IntoResponse {
         .unwrap()
 }
 
-pub async fn list_users(Extension(pool): Extension<MySqlPool>) -> Option<axum::Json<Vec<JsonValue>>> {
+pub async fn list_users(Extension(pool): Extension<MySqlPool>) -> Option<Vec<JsonValue>> {
     let rows = match sqlx::query("SELECT id, name, email FROM users")
         .fetch_all(&pool)
         .await
@@ -68,7 +68,6 @@ pub async fn list_users(Extension(pool): Extension<MySqlPool>) -> Option<axum::J
         Ok(rows) => rows,
         Err(_) => {
             return None;
-            //return Json([{"email": "justin.ff@email.com", "id": 2, "name": "Justin Flinch-Fletcher"}]); 
         }
     };
 
@@ -83,22 +82,7 @@ pub async fn list_users(Extension(pool): Extension<MySqlPool>) -> Option<axum::J
         })
         .collect();
 
-    //println!("{}", Json(users));
-
-    return Some(Json(users));
-    
-    /*return vec![
-        User {
-            id: 1,
-            name: "Jeffrey".to_string(),
-            email: "jeffrey@email.com".to_string(),
-        },
-        User {
-            id: 2,
-            name: "Zach".to_string(),
-            email: "zach@zach.com".to_string(),
-        },
-    ];*/
+    return Some(users);
 }
 
 pub async fn delete_user(Path(user_id): Path<u64>) -> Result<Json<User2>, impl IntoResponse> {

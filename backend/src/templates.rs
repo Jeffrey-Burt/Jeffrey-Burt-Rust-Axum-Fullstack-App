@@ -27,24 +27,14 @@ pub struct HelloTemplate {
 #[template(path = "C:\\Users\\User\\Desktop\\Jeffrey-Burt-Rust-Axum-Fullstack-App\\frontend\\templates\\about.html")]
 pub struct AboutTemplate {
     button_text: String,
+    user_list: Vec<User>
 }
 
 pub async fn about_template(Extension(pool): Extension<MySqlPool>) -> impl IntoResponse {
     let users = list_users(Extension(pool)).await;
-    //println!("{:?}", users);
-
-    //Get rid of the json at the beginning, try to make it just <Vec<JsonValue>>
-
-    for i in users {
-
-    };
-    println!("{}", users.unwrap());
-    println!("{:?}", *users.unwrap());
-    let v: Serde_Value = serde_json::from_value(users).unwrap();
-    //let v: Value = serde_json::from(users);
-    //println!("{} {} {}", v["id"], v["name"], v["email"]);
     let template = AboutTemplate { 
-        button_text: "Text in button!".to_string()
+        button_text: "Text in button!".to_string(),
+        user_list: serde_json::from_value(users.into()).unwrap()
     };
     HtmlTemplate(template)
 }
@@ -73,3 +63,34 @@ where
         }
     }
 }
+
+
+
+
+//println!("{:?}", users);
+
+    //let mut vec = Vec::new();
+
+    //Get rid of the json at the beginning, try to make it just <Vec<JsonValue>>
+
+    /*for i in users {
+        let v: Serde_Value = serde_json::from_value(i).unwrap();
+        vec.push(i);
+    };*/
+    //println!("{}", users.unwrap());
+    
+    // Valuable line below. When compiling properly, it prints out the JSON object. Just need to find out how to parse it.
+    
+    //println!("{:?}", *users.unwrap());
+    
+    
+    //let v: Vec<User> = serde_json::from_value(users.into()).unwrap();
+    /*for i in v {
+        println!("{}", i.id);
+        println!("{}", i.name);
+        println!("{}", i.email);
+    }*/
+    //println!("{}", v.name);
+    //println!("{:?}", v.id);
+    //let v: Value = serde_json::from(users);
+    //println!("{} {} {}", v["id"], v["name"], v["email"]);
