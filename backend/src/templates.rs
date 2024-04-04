@@ -12,6 +12,7 @@ use sqlx::{
     types::{JsonValue}
 };
 use askama::Template;
+use serde_json::{Result, Value as Serde_Value};
 
 /// A wrapper type that we'll use to encapsulate HTML parsed by askama into valid HTML for axum to serve.
 pub struct HtmlTemplate<T>(T);
@@ -30,8 +31,16 @@ pub struct AboutTemplate {
 
 pub async fn about_template(Extension(pool): Extension<MySqlPool>) -> impl IntoResponse {
     let users = list_users(Extension(pool)).await;
-    println!("{:?}", users);
+    //println!("{:?}", users);
+
+    //Get rid of the json at the beginning, try to make it just <Vec<JsonValue>>
+
+    for i in users {
+
+    };
+    println!("{}", users.unwrap());
     println!("{:?}", *users.unwrap());
+    let v: Serde_Value = serde_json::from_value(users).unwrap();
     //let v: Value = serde_json::from(users);
     //println!("{} {} {}", v["id"], v["name"], v["email"]);
     let template = AboutTemplate { 
