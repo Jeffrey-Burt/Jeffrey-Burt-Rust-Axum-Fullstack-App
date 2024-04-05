@@ -14,6 +14,7 @@ pub async fn get_routes(pool: MySqlPool) -> Router {
     .route("/", get(|| async {"Hello, Rust!"}))
     .route("/hello-world", get(hello))
     .route("/about", get(about_template))
+    .route("/new_user", get(new_user_template))
     .route("/api/users", get(get_users))
     .route("/api/item/:id", get(show_item))
     .route("/api/create-user", post(create_user))

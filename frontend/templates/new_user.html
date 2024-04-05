@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<title>
+    New User
+</title>
+<body>
+    <script src="https://unpkg.com/htmx.org@1.9.11/dist/htmx.min.js"></script>
+<p>
+    Field for new id: 
+</p>
+<p>
+    Field for new name: 
+</p>
+<p id="email_field">
+    Field for new email: 
+</p>
+<button hx-get="../about.html" hx-swap="email_field" async>
+    {{ button_text }}
+</button>
+</body>

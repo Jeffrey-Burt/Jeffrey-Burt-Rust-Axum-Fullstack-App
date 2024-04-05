@@ -30,6 +30,12 @@ pub struct AboutTemplate {
     user_list: Vec<User>
 }
 
+#[derive(Template)]
+#[template(path = "C:\\Users\\User\\Desktop\\Jeffrey-Burt-Rust-Axum-Fullstack-App\\frontend\\templates\\new_user.html")]
+pub struct NewUserTemplate {
+    button_text: String
+}
+
 pub async fn about_template(Extension(pool): Extension<MySqlPool>) -> impl IntoResponse {
     let users = list_users(Extension(pool)).await;
     let template = AboutTemplate { 
@@ -41,6 +47,13 @@ pub async fn about_template(Extension(pool): Extension<MySqlPool>) -> impl IntoR
 
 pub async fn hello() -> impl IntoResponse {
     let template = HelloTemplate { name: "World".to_string() };
+    HtmlTemplate(template)
+}
+
+pub async fn new_user_template(Extension(pool): Extension<MySqlPool>) -> impl IntoResponse {
+    let template = NewUserTemplate {
+        button_text: "Submit".to_string()
+    };
     HtmlTemplate(template)
 }
 
