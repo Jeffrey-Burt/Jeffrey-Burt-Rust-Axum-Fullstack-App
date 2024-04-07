@@ -8,6 +8,7 @@ use serde::{
     Serialize, 
     Deserialize
 };
+use serde_json::Value;
 use serde_json::json;
 use sqlx::{
     MySqlPool,
@@ -16,7 +17,7 @@ use sqlx::{
 };
 use std::fmt;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct User {
     pub id: u64,
     pub name: String,
@@ -27,6 +28,13 @@ pub struct User {
 pub struct User2 {
     id: u64,
     name: String,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct User3 {
+    pub id: String,
+    pub name: String,
+    pub email: String,
 }
 
 #[derive(Deserialize)]
@@ -53,7 +61,12 @@ pub async fn add_item(Json(item): Json<Item>) -> String {
     format!("Added item: {}", item.title)
 }
 
-pub async fn create_user() -> impl IntoResponse {
+pub async fn create_user(Extension(pool): Extension<MySqlPool>, Json(payload): Json<Value>) -> impl IntoResponse {
+    let user: User3 = serde_json::from_value(payload).unwrap();
+    let query_string: String = format!("INSERT INTO users (id, name, email) VALUES ({}, '{}', '{}')", user.id, user.name, user.email);
+    let result = sqlx::query(&query_string)
+    .fetch_all(&pool)
+    .await;
     Response::builder()
         .status(StatusCode::CREATED)
         .body(Body::from("User created successfully"))
