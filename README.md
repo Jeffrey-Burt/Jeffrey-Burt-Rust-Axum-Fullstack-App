@@ -40,6 +40,9 @@ Notes:
 ```the trait Template is not implemented for AboutTemplate, which is required by HtmlTemplate<AboutTemplate>: axum::response::IntoResponse```
 ^ This error is caused by the path being incorrect on one of the #[template(path = "foo/bar")]
 
+
+If the error is that a "result was found", then you have to .unwrap() the function
+
 ---
 
 VSCode Extensions Installed:
